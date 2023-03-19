@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 3</h2>
+	<h3>Умова задачі</h3>
+	<p>
+		Морський бій. Випадковим чином на двовимірному полі розміром 6*6 розташовується 5 кораблів. Користувач стріляє
+		вказуючи координати. Гра продовжується поки не потоплено усі кораблі або у користувача не закінчаться снаряди.
+	</p>
+
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+		// Функція генерування рандомного числа
+		function getRandomNumber(minNumber, maxNumber) {
+			return minNumber + Math.floor(Math.random() * (maxNumber - minNumber + 1))
+		}
+		//========================================================================================================================================================
+		//----- Формування вільного двовимірний масиву, заповненого нулями.	
+		function getFreeField(rowNumber, columnNumber) {
+			let freeField = []
+			for (let row = 0; row < rowNumber; row++) {
+				const rowGameField = new Array(columnNumber).fill(0)
+				freeField.push(rowGameField)
+			}
+			return freeField
+		}
+
+		//----- Формування поля гри з розташованими кораблями.	
+		function createGameField(rowNumber, columnNumber, shipsNumber) {
+			let gameField = getFreeField(rowNumber, columnNumber)
+			do {
+				shipIndexRow = getRandomNumber(0, rowNumber - 1)
+				shipIndexColumn = getRandomNumber(0, columnNumber - 1)
+				if (gameField[shipIndexRow][shipIndexColumn] !== 1) {
+					gameField[shipIndexRow][shipIndexColumn] = 1
+					shipsNumber--
+				}
+			} while (shipsNumber > 0)
+			return gameField
+		}
+
+		//========================================================================================================================================================
+		// Гра користувача
+		function game(gameField, shipsNumber) {
+			do {
+				const userRow = parseInt(prompt(`На гральному полі ${rowNumber} рядків. Введіть номер рядку.`)) - 1   //Користувач задає номер рядку
+				const userColumn = parseInt(prompt(`На гральному полі ${columnNumber} колонок. Введіть номер колонки.`)) - 1   //Користувач задає номер колонки
+				if (gameField[userRow][userColumn] === 1) {
+					gameField[userRow][userColumn] = 0
+					shipsNumber--
+					alert(`Вітаю, Ви влучили, у Bас залишилось ${shipsNumber} кораблів.`)
+				}
+				else alert(`Не влучили, у Bас залишилось ${shipsNumber} кораблів.`)
+
+			} while (shipsNumber > 0)
+			document.write('Гра завершена')
+		}
+		//========================================================================================================================================================
+
+		const rowNumber = 6 // Кількість рядків
+		const columnNumber = 6 // Кількість стовпців
+		const shipsNumber = 5 // Кількість кораблів
+		const gameField = createGameField(rowNumber, columnNumber, shipsNumber) // Створюємо ігрове поле
+
+		game(gameField, shipsNumber)
+
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+	</style>
+</body>
+
+</html>

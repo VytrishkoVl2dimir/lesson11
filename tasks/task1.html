@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Home Work</title>
+</head>
+
+<body>
+	<h2>Задача 1</h2>
+	<h3>Умова задачі</h3>
+	<p>
+		Знайти суми елементів у вказаній області:
+		<!-- 1. 2 чверть.
+		2. 1 чверть.
+		3. 3 чверть.
+		4. 4 чверть.
+		5) Суму парних рядків.
+		6) Суму непарних стовпців.
+		7) У парних рядках – непарні стовпці, у непарних – парні. -->
+	</p>
+
+	<h3>Розв'язок</h3>
+	<script>
+		//========================================================================================================================================================
+		// Функція генерування рандомного числа
+		function getRandomNumber(minNumber, maxNumber) {
+			return minNumber + Math.floor(Math.random() * (maxNumber - minNumber + 1))
+		}
+
+		// Функція генерування масиву рандомних чисел
+		function getRandomArray(arrLength, minNumber, maxNumber) {
+			let arr = []
+			for (let i = 0; i < arrLength; i++) {
+				const randomElement = getRandomNumber(minNumber, maxNumber)
+				arr.push(randomElement)
+			}
+			return arr
+		}
+
+		// Функція генерування двовимірного масиву рандомних чисел
+		function getRandomTable(rowNumber, columnNumber, minNumber, maxNumber) {
+			let table = []
+			for (let row = 0; row < rowNumber; row++) {
+				const rendomRowArray = getRandomArray(columnNumber, minNumber, maxNumber)
+				table.push(rendomRowArray)
+			}
+			return table
+		}
+		//========================================================================================================================================================
+		// вивід на екран масиву
+		function getWriteTable(arr) {
+			for (let row = 0; row < arr.length; row++) {
+				document.write(`${arr[row]}<br>`)
+			}
+			return
+		}
+		//========================================================================================================================================================
+
+		//----  1. Знайти суми елементів у вказаній області.
+
+		function getSumInSide(array, rowStart, rowEnd, columnStart, columnEnd,) {
+			let sum = 0
+			for (let row = rowStart; row < rowEnd; row++) {
+				for (let column = columnStart; column < columnEnd; column++) {
+					sum += array[row][column]
+				}
+			}
+			return sum
+		}
+		//========================================================================================================================================================
+		const minValue = 1
+		const maxValue = 5
+		const rowNumber = parseInt(prompt('Введіть кількість рядків'))
+		const columnNumber = parseInt(prompt('Введіть кількість стовпців'))
+		const randomArray = getRandomTable(rowNumber, columnNumber, minValue, maxValue) //Формуємо рандомний масив
+
+		document.write('<h3> Початковий масив - </h3>')
+		getWriteTable(randomArray)
+		//========================================================================================================================================================
+		const middleRow = Math.floor(rowNumber / 2)
+		const middlecolumn = Math.floor(columnNumber / 2)
+
+		const sumInSecondSide = getSumInSide(randomArray, 0, middleRow, 0, middlecolumn)
+		const sumInFirstSide = getSumInSide(randomArray, 0, middleRow, middlecolumn, columnNumber)
+		const sumInThirdSide = getSumInSide(randomArray, middleRow, rowNumber, 0, middlecolumn)
+		const sumInFourthSide = getSumInSide(randomArray, middleRow, rowNumber, middlecolumn, columnNumber)
+
+		document.write(`<h3>1. Cума елементів другій чверті - ${sumInSecondSide}</h3>`)
+		document.write(`<h3>2. Cума елементів першій чверті - ${sumInFirstSide}</h3>`)
+		document.write(`<h3>3. Cума елементів третій чверті - ${sumInThirdSide}</h3>`)
+		document.write(`<h3>4. Cума елементів четвертій чверті - ${sumInFourthSide}</h3>`)
+		//========================================================================================================================================================
+		//----  5. Знайти суми парних рядків.
+
+		function getSumEvenRow(arr) {
+			let sum = 0
+			for (let row = 0; row < arr.length; row += 2)
+				sum += arr[row].reduce((prevValue, elem) => prevValue + elem)
+			return sum
+		}
+		document.write(`<h3>5. Cума парних рядків - ${getSumEvenRow(randomArray)}</h3>`)
+		//========================================================================================================================================================
+		//----  6. Знайти суми непарних стовпців.
+
+		function getSumOddColumn(arr) {
+			let sum = 0
+			for (let row = 0; row < arr.length; row++) {
+				for (let column = 1; column < arr[row].length; column += 2) {
+					sum += arr[row][column]
+				}
+			}
+			return sum
+		}
+		document.write(`<h3>6. Cума непарних стовпців - ${getSumOddColumn(randomArray)}</h3>`)
+		//========================================================================================================================================================
+		//----  7. У парних рядках – непарні стовпці, у непарних – парні. -->
+
+		function getSum_InEvenRowsOddColumns_InOddRowsEvenColumns(arr) {
+			let sum = 0
+			for (let row = 1; row < arr.length; row++) {
+				if (row % 2 === 0) {
+					for (let column = 1; column < arr[row].length; column += 2) {
+						sum += arr[row][column]
+					}
+				} else {
+					for (let column = 0; column < arr[row].length; column += 2) {
+						sum += arr[row][column]
+					}
+				}
+			}
+			return sum
+		}
+		document.write(`<h3>7. Cума у парних рядках – непарних стовпців, у непарних – парних - ${getSum_InEvenRowsOddColumns_InOddRowsEvenColumns(randomArray)}</h3>`)
+
+
+	</script>
+	<style>
+		h2 {
+			color: #08368b;
+		}
+
+		h3 {
+			color: #06700f;
+		}
+
+		ul {
+			margin: 0;
+		}
+	</style>
+</body>
+
+</html>
